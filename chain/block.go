@@ -1,7 +1,6 @@
 package chain
 
 import (
-	"pubChain/A"
 	"pubChain/consensus"
 	"time"
 )
@@ -54,5 +53,24 @@ func CreateGenesisBloc(data []byte) Block {
 	cons := consensus.NewPoW(genesis)
 	genesis.Hash, genesis.Nonce  = cons.Run()
 	return genesis
+}
+
+/**
+ * 获取block字段的get，set方法
+ */
+func (block Block) GetVersion() int64{
+	return block.Version
+}
+
+func (block Block) GetPreHash() [32]byte{
+	return block.PreHash
+}
+
+func (block Block) GetTimeStamp() int64{
+	return block.TimeStamp
+}
+
+func (block Block) GetData() []byte{
+	return block.Data
 }
 

@@ -2,8 +2,6 @@ package consensus
 
 import (
 	"math/big"
-	"pubChain/chain"
-	"pubChain/consensus/pow"
 )
 
 /**
@@ -14,10 +12,20 @@ type Consensus interface {
 }
 
 /**
+ * 获取block字段的接口
+ */
+type BlockIterface interface {
+	GetVersion() int64
+	GetPreHash() [32]byte
+	GetTimeStamp() int64
+	GetData() []byte
+}
+
+/**
  * pow共识算法
  */
-func NewPoW(block chain.Block) Consensus {
+func NewPoW(block BlockIterface) Consensus {
 	target := big.NewInt(1)
-	target.Lsh(target, 255-pow.DIFFICULTY)
-	return pow.Pow{Block: block, Target: target}
+	target.Lsh(target, 255-DIFFICULTY)
+	return Pow{Getblock: block, Target: target}
 }
