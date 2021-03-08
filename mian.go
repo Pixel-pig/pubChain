@@ -1,13 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"github.com/boltdb/bolt"
 	"pubChain/chain"
 )
 
 func main() {
-	genesisBloc := chain.CreateGenesisBloc([]byte("hello word!"))
-	fmt.Println("创世区块", genesisBloc)
-	block1 := chain.CreateBloc(genesisBloc.Hash, []byte("hello word!"))
-	fmt.Println("第一个区块", block1)
+	//生成blot.DB对象
+	db, err := bolt.Open("pubchain",0600,nil)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	blockChain := chain.NewBlockChain(db)
+	blockChain.CreateGenesis([]byte("block0"))
+
 }

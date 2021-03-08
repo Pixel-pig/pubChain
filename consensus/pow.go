@@ -7,7 +7,7 @@ import (
 	"pubChain/utils"
 )
 
-const DIFFICULTY = 10
+const DIFFICULTY = 4
 
 /**
  * Pow算法的结构体
@@ -23,10 +23,12 @@ type Pow struct {
  */
 func (pow Pow) Run() ([32]byte, int64) {
 	var nonce int64 = 0
+	 hashBig := new(big.Int)
 	for {
 		hash := SetNowHash(pow.Getblock, nonce)
+		hashBig = hashBig.SetBytes(hash[:])
 		target := pow.Target
-		result := bytes.Compare(hash[:], target.Bytes())
+		result := hashBig.Cmp(target)
 		if result == -1 {
 			return hash, nonce
 		}

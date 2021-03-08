@@ -1,6 +1,8 @@
 package chain
 
 import (
+	"bytes"
+	"encoding/gob"
 	"pubChain/consensus"
 	"time"
 )
@@ -22,9 +24,30 @@ type Block struct {
 }
 
 /**
+ * 区块序列化
+ * 将区块序列化为byte类型
+ */
+func (block *Block) Serialize() ([]byte, error){
+	buff := new(bytes.Buffer)
+	encoder := gob.NewEncoder(buff)
+	err := encoder.Encode(&block)
+	return buff.Bytes(), err
+}
+
+/**
+ * 区块的反序列化
+ */
+func Deserialize(data []byte) (Block, error) {
+	var block Block
+	decoder := gob.NewDecoder(bytes.NewReader(data))
+	err := decoder.Decode(&block)
+	return block, err
+}
+
+/**
  * 创建一个新区块
  */
-func CreateBloc(preHash [32]byte, data []byte) Block {
+func CreateBlock(preHash [32]byte, data []byte) Block {
 	block := Block{}
 	block.Version = VERSION
 	block.PreHash = preHash
