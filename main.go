@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/boltdb/bolt"
 	"pubChain/chain"
 )
@@ -12,7 +13,13 @@ func main() {
 		panic(err.Error())
 	}
 
-	blockChain := chain.NewBlockChain(db)
-	blockChain.CreateGenesis([]byte("block0"))
+	blockChain, _ := chain.NewBlockChain(db)
+
+	for blockChain.HasNext() {
+		block := blockChain.Next()
+		fmt.Println(block)
+		fmt.Println(block.Hash)
+		fmt.Println("--------")
+	}
 
 }

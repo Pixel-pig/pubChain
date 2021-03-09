@@ -7,7 +7,7 @@ import (
 	"pubChain/utils"
 )
 
-const DIFFICULTY = 4
+const DIFFICULTY = 10
 
 /**
  * Pow算法的结构体
